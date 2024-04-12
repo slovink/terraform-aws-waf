@@ -1,0 +1,107 @@
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name : Terraform waf
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: https://github.com/slovink/terraform-aws-waf.git
+
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.7.0-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "https://github.com/slovink/terraform-aws-waf/blob/dev/LICENSE"
+  - name: "tfsec"
+    image: "https://github.com/slovink/terraform-aws-waf/blob/dev/.github/workflows/tfsec.yml"
+    url: "https://github.com/slovink/terraform-aws-waf/blob/dev/.github/workflows/tfsec.yml"
+
+
+
+#  description of this project
+description: |-
+  This terraform module is designed to generate consistent label names and tags for resources. You can use terraform-waf to implement a strict naming convention.
+
+
+# extra content
+include:
+  - "terraform.md"
+# How to use this project
+usage : |-
+
+  ### Simple Example
+  Here is an example of how you can use this module in your inventory structure:
+  ```hcl
+      module "waf" {
+          source               = "https://github.com/slovink/terraform-aws-waf.git"
+          name                 = "waf"
+          environment          = "test"
+          allow_default_action = true
+          waf_enabled          = true
+          waf_scop             = "REGIONAL"
+
+          web_acl_association = true
+          resource_arn_list   = ["arn:aws:elasticloadbalancing:eu-west-1:xxxxxxx:loadbalancer/app/alb-test/xxxxxxxxx"]
+
+          visibility_config = {
+          cloudwatch_metrics_enabled = true
+          sampled_requests_enabled   = true
+          }
+
+          rules = [
+
+          {
+            name     = "rate-limit"
+            priority = "1"
+            action   = "block"
+
+            visibility_config = {
+            cloudwatch_metrics_enabled = true
+            metric_name                = "rate-limit"
+            sampled_requests_enabled   = true
+          }
+
+            rate_based_statement = {
+            limit              = 2000
+            aggregate_key_type = "IP"
+          }
+          },
+          {
+            name     = "allow-ip-set"
+            priority = "0"
+            action   = "allow"
+
+            ip_set_reference_statement = {
+            arn = module.ip_set.ip_set_arn
+          }
+
+            visibility_config = {
+            cloudwatch_metrics_enabled = true
+            metric_name                = "test-waf-setup-waf-ip-set-block-metrics"
+            sampled_requests_enabled   = true
+          }
+          }
+        ]
+
+
+        #logs
+
+          create_logging_configuration = false
+          redacted_fields = [
+          {
+          single_header = {
+          name = "user-agent"
+          }
+          }
+      }
+
+  ```

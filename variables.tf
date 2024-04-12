@@ -31,19 +31,6 @@ variable "managedby" {
   description = ""
 }
 
-variable "attributes" {
-  type        = list(any)
-  default     = []
-  description = "Additional attributes (e.g. `1`)."
-}
-
-variable "tags" {
-  type        = map(any)
-  default     = {}
-  description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
-}
-
-
 variable "waf_enabled" {
   type        = bool
   default     = false
@@ -96,10 +83,6 @@ variable "ip_addresses" {
   description = "(Required) Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all address ranges for IP versions IPv4 and IPv6."
 }
 
-variable "block_sensitive_paths" {
-  type    = bool
-  default = null
-}
 
 variable "rules" {
   description = "List of WAF rules."
@@ -138,3 +121,4 @@ variable "logging_filter" {
   default     = {}
   description = "A configuration block that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation."
 }
+

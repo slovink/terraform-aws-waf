@@ -12,3 +12,4 @@ output "id" {
   value       = module.waf.id
   description = "A mapping of tags to assign to the resource."
 }
+
