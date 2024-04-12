@@ -66,7 +66,7 @@ This Terraform module is provided under the '[License Name]' License. Please see
 Here is an example of how you can use this module in your inventory structure:
   ```hcl
 module "waf" {
-  source               = "https://github.com/slovink/terraform-aws-waf.git"
+  source               = "https://github.com/slovink/terraform-aws-waf.git?ref=v1.0.0"
   name                 = "waf"
   environment          = "test"
   allow_default_action = true
@@ -133,6 +133,6 @@ module "waf" {
 
 
 ## Feedback
-If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/slovink/terraform-aws-waf/issues), or feel free to drop us an email at [devops@slovink.com](mailto:devops@slovink.com).
+If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/slovink/terraform-aws-waf/issues), or feel free to drop us an email at [contact@slovink.com](mailto:contact@slovink.com).
 
 If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/slovink/terraform-aws-waf)!
